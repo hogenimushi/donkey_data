@@ -10,10 +10,14 @@ Datasets for Donkeycar training
 # 例
 
 早く走るモデルをつくる
+'''
  make train_fast20
+'''
 
 作ったモデルで走らせる
+'''
  make run_fast20
+'''
 
 # やること
 - 10Hzに対応する
@@ -25,3 +29,6 @@ Datasets for Donkeycar training
 - 狙ったデータを抜き出すスクリプト
 
 
+# 注意
+- configs/ にconfig fileをまとめたい
+- Makefile中のDATASET_xxx は多すぎるので減らしたほうが良い
