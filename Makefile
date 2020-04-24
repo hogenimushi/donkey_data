@@ -20,11 +20,18 @@ DATASET_SLOW_ARG=$(subst $(SPACE),$(COMMA),$(DATASET_SLOW))
 none:
 	@echo "Argument is required."
 
-recode10:
+record05:
+	$(PYTHON) manage.py drive --js --myconfig=configs/myconfig_05Hz.py
+
+record10:
 	$(PYTHON) manage.py drive --js --myconfig=configs/myconfig_10Hz.py
 
-recode20:
+record20:
 	$(PYTHON) manage.py drive --js 
+
+
+run05: models/lap_05.h5
+	$(PYTHON) manage.py drive --model=models/lap_05.h5 --type=linear
 
 run_fast20: models/fast_20.h5
 	$(PYTHON) manage.py drive --model=models/fast_20.h5 --type=linear
@@ -37,6 +44,15 @@ race_fast20: models/fast_20.h5
 
 race_slow20: models/slow_20.h5
 	$(PYTHON) manage.py drive --model=$< --type=linear --myconfig=configs/race.py
+
+race05: models/lap_05.h5
+	$(PYTHON) manage.py drive --model=$< --type=linear --myconfig=configs/race_05Hz.py
+
+
+train:
+	@make models/default.h5
+train_3d:
+	@make models/default_3d.h5
 
 train_fast20:
 	@make models/fast_20.h5
@@ -52,6 +68,19 @@ models/fast_20.h5: $(DATASET_FAST)
 
 models/fast3d_20.h5: $(DATASET_FAST)
 	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=3d
+
+models/default.h5:
+	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=linear
+	
+models/default_3d.h5:
+	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=3d
+
+models/default_rnn.h5:
+	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=rnn
+
+# Yattsuke
+models/lap_05.h5: data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/leftcut_001 data_05Hz/rightcut_001
+	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear
 
 clean:
 	rm -fr models/slow_20.h5 models/fast_20.h5 models/fast3d_20.h5 models/*.png
