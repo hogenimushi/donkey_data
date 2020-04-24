@@ -2,16 +2,20 @@
 必ずtubのバックアップを行なってからスクリプトを実行する様にしてください  
 
 ## データの周波数を変えるやつ
-$ python3 change_freq.py --current "current freq" --target "target freq" --tub "file path" --test
+$ python3 change_freq.py --current "current freq" --target "target freq" --input "file path" --output "file_path" --test
 
 オプション  
 --current データを取得するときに使用した周波数を入力してください(default=20)  
 --target　作りたいデータの周波数を入力してください(default=10)  
---tub　データのpathを入力してください  
+--input　データのpathを入力してください  
+--output データの保存先を入力してください
 --test　付近のデータを読み込んで近似してみるモード（少しは滑らかになるかも？）  
   
 example  
-$ python3 change_freq.py --current 60 --tub /Users/iori/tmp/virtual_race_data/tub_19_20-04-20 --test  
+$ python3 change_freq.py --input tub_19_20-04-20 --test --output aaa 
+  
+この例の場合、  
+aaa_0、aaa_1の二つのディレクトリにデータができます
 ## データから特定の部分だけ抜き出すやつ
 $ python3 trimming_data.py "data path" "first record number" "last record number" "destination data path"  
   
