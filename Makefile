@@ -55,3 +55,5 @@ models/fast3d_20.h5: $(DATASET_FAST)
 
 clean:
 	rm -fr models/slow_20.h5 models/fast_20.h5 models/fast3d_20.h5 models/*.png
+trimming_crash_001:
+	$(PYTHON) configs/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file configs/trimming_crash_001
