@@ -10,6 +10,12 @@ data_20Hz/startright_17 data_20Hz/startright_18 data_20Hz/startright_19 data_20H
 DATASET_SLOW=data_20Hz/middle_001 $(START_RIGHT)
 DATASET_FAST=data_20Hz/lap_001 data_20Hz/lap_002 data_20Hz/lap_003 data_20Hz/lap_004 data_20Hz/lap_005 \
 data_20Hz/lap_006 data_20Hz/lap_007 data_20Hz/lap_008 data_20Hz/leftcut_001 data_20Hz/rightcut_001 $(START_RIGHT) 
+DATASET_05Hz=data_05Hz/conservative_001 data_05Hz/conservative_002 data_05Hz/conservative_003 data_05Hz/conservative_004 \
+data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
+data_05Hz/rightcut_001 data_20Hz/startright_01
+#DATASET_05Hz=data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
+#data_05Hz/lap_006 data_05Hz/leftcut_001 data_05Hz/rightcut_001 data_20Hz/startright_01
+
 
 COMMA=,
 EMPTY=
@@ -50,15 +56,17 @@ race05: models/lap_05.h5
 
 
 train:
-	@make models/default.h5
+	make models/default.h5
 train_3d:
-	@make models/default_3d.h5
+	make models/default_3d.h5
 
 train_fast20:
-	@make models/fast_20.h5
+	make models/fast_20.h5
 
 train_slow20:
-	@make models/slow_20.h5
+	make models/slow_20.h5
+train_lap05:
+	make models/lap_05.h5
 
 models/slow_20.h5: $(DATASET_SLOW)
 	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear
@@ -71,19 +79,18 @@ models/fast3d_20.h5: $(DATASET_FAST)
 
 models/default.h5:
 	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=linear
-	
+
 models/default_3d.h5:
 	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=3d
 
 models/default_rnn.h5:
 	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=rnn
 
-# Yattsuke
-models/lap_05.h5: data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/leftcut_001 data_05Hz/rightcut_001
-	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear
+models/lap_05.h5: $(DATASET_05Hz)
+	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear --myconfig=configs/myconfig_05Hz.py
 
 trimming_crash_001:
 	$(PYTHON) configs/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file configs/trimming_crash_001
 
 clean:
-	rm -fr models/slow_20.h5 models/fast_20.h5 models/fast3d_20.h5 models/*.png
+	rm -fr models/*

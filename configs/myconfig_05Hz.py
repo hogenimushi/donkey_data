@@ -220,14 +220,14 @@ DONKEY_SIM_PATH = "/home/okuyama/work/donkey/DonkeySimLinux/donkey_sim.x86_64"
 DONKEY_GYM_ENV_NAME = "donkey-generated-track-v0" # ("donkey-generated-track-v0"|"donkey-generated-roads-v0"|"donkey-warehouse-v0"|"donkey-avc-sparkfun-v0")
 GYM_CONF = { "body_style" : "donkey", "body_rgb" : (64, 64, 230), "car_name" : "Hogenimushi", "font_size" : 10} # body style(donkey|bare|car01) body rgb 0-255
 # SIM_HOST = "127.0.0.1"              # when racing on virtual-race-league use host "trainmydonkey.com"
-SIM_ARTIFICIAL_LATENCY = 120          # this is the millisecond latency in controls. Can use useful in emulating the delay when useing a remote server. values of 100 to 400 probably reasonable.
+SIM_ARTIFICIAL_LATENCY = 150          # this is the millisecond latency in controls. Can use useful in emulating the delay when useing a remote server. values of 100 to 400 probably reasonable.
 
 WEB_CONTROL_PORT = 8887 
 WEB_INIT_MODE = "local"   # or user
 
 # for learning
 MAX_EPOCHS = 100
-EARLY_STOP_PATIENCE = 50
+EARLY_STOP_PATIENCE = 5
 CACHE_IMAGES = False
 
 CONTROLLER_TYPE='F710'
