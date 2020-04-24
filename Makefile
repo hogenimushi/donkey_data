@@ -82,5 +82,8 @@ models/default_rnn.h5:
 models/lap_05.h5: data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/leftcut_001 data_05Hz/rightcut_001
 	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear
 
+trimming_crash_001:
+	$(PYTHON) configs/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file configs/trimming_crash_001
+
 clean:
 	rm -fr models/slow_20.h5 models/fast_20.h5 models/fast3d_20.h5 models/*.png
