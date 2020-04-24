@@ -36,6 +36,7 @@ def verification_data(path):
         print("\n" + path + " doesn't exist donkey data.")
         exit(1)
 
+
 def verification_target_dir(path):
     print("checking destination data path ... ", end="")
     if os.path.exists(path):

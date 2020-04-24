@@ -20,17 +20,14 @@ first record numberに切り取りたいデータの範囲の最初の番号を�
 last record numberに切り取りたいデータの範囲の最後の番号を、  
 destination data pathに保存先のディレクトリを入力してください。
 ## データから特定の部分をまとめて抜き出すやつ
-$ python3 trimming_from_file.py "file"  
-  
-fileの一行目に元となるデータのディレクトリを、  
-二行目に保存するディレクトリを、  
-三行目以降に抜き出したいデータの最初と最後を入れていってください  
+$ python3 trimming.py --input "data directory" --output "destination directory" --file "file" --num "data list"   
   
 fileの例  
-/Users/iori/tmp/virtual_race_data/mod_lap10  
-/Users/iori/tmp/virtual_race_data/aaa  
 40 50  
 600 700  
+  
+コマンドの例
+$ python3 trimming_from_file.py --input /Users/iori/tmp/virtual_race_data/mod_lap10/ --output /Users/iori/tmp/virtual_race_data/ccc --num 40 50 600 700  
   
 この例の場合,  
 aaa_0ディレクトリに40-50、
