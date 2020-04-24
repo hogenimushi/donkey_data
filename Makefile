@@ -90,7 +90,7 @@ models/lap_05.h5: $(DATASET_05Hz)
 	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear --myconfig=configs/myconfig_05Hz.py
 
 trimming_crash_001:
-	$(PYTHON) configs/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file configs/trimming_crash_001
+	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file data_20Hz/crash_001_trim.txt
 
 clean:
 	rm -fr models/*
