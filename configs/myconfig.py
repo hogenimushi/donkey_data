@@ -16,7 +16,7 @@
 # MODELS_PATH = os.path.join(CAR_PATH, 'models')
 # 
 # #VEHICLE
-# DRIVE_LOOP_HZ = 20      # the vehicle loop will pause if faster than this speed.
+DRIVE_LOOP_HZ = 20      # the vehicle loop will pause if faster than this speed.
 # MAX_LOOPS = None        # the vehicle loop can abort after this many iterations, when given a positive integer.
 # 
 # #CAMERA
@@ -139,7 +139,7 @@ JOYSTICK_STEERING_SCALE = 1.0       #some people want a steering that is less se
 # MODEL_CATEGORICAL_MAX_THROTTLE_RANGE = 0.5
 # 
 # #RNN or 3D
-# SEQUENCE_LENGTH = 3             #some models use a number of images over time. This controls how many.
+SEQUENCE_LENGTH = 4             #some models use a number of images over time. This controls how many.
 # 
 # #IMU
 # HAVE_IMU = False                #when true, this add a Mpu6050 part and records the data. Can be used with a 
@@ -226,8 +226,8 @@ WEB_CONTROL_PORT = 8887
 WEB_INIT_MODE = "local"   # or user
 
 # for learning
-MAX_EPOCHS = 100
-EARLY_STOP_PATIENCE = 50
+MAX_EPOCHS = 150
+EARLY_STOP_PATIENCE = 20
 CACHE_IMAGES = False
 
 CONTROLLER_TYPE='F710'

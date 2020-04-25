@@ -4,9 +4,11 @@
 PYTHON=python
 START_RIGHT= data_20Hz/startright_01 data_20Hz/startright_02 data_20Hz/startright_03  data_20Hz/startright_04 \
 data_20Hz/startright_05 data_20Hz/startright_06 data_20Hz/startright_07 data_20Hz/startright_08 \
-data_20Hz/startright_09 data_20Hz/startright_10 data_20Hz/startright_11 data_20Hz/startright_12 \
-data_20Hz/startright_13 data_20Hz/startright_14 data_20Hz/startright_15 data_20Hz/startright_16 \
-data_20Hz/startright_17 data_20Hz/startright_18 data_20Hz/startright_19 data_20Hz/startright_20
+data_20Hz/startright_09 data_20Hz/startright_10 
+
+START_RIGHT= data_20Hz/startright_01 data_20Hz/startright_02 data_20Hz/startright_03 data_20Hz/startright_04 data_20Hz/startright_05 \
+data_20Hz/startright_06 data_20Hz/startright_07 data_20Hz/startright_08 data_20Hz/startright_09 data_20Hz/startright_10 
+
 DATASET_SLOW=data_20Hz/middle_001 $(START_RIGHT)
 DATASET_FAST=data_20Hz/lap_001 data_20Hz/lap_002 data_20Hz/lap_003 data_20Hz/lap_004 data_20Hz/lap_005 \
 data_20Hz/lap_006 data_20Hz/lap_007 data_20Hz/lap_008 data_20Hz/leftcut_001 data_20Hz/rightcut_001 $(START_RIGHT) 
@@ -84,6 +86,7 @@ race05: models/lap_05.h5
 
 train:
 	make models/default.h5
+
 train_3d:
 	make models/default_3d.h5
 
@@ -132,6 +135,9 @@ models/laprnn_05.h5: $(DATASET_05Hz)
 
 models/laprnn_10.h5: $(DATASET_10Hz)
 	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig_10Hz.py
+
+models/laprnn_20.h5: $(DATASET_10Hz)
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig.py
 
 trimming_crash_001:
 	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file data_20Hz/crash_001_trim.txt
