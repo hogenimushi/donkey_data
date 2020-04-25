@@ -139,8 +139,14 @@ models/laprnn_10.h5: $(DATASET_10Hz)
 models/laprnn_20.h5: $(DATASET_10Hz)
 	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig.py
 
-trimming_crash_001:
+trim_crash_001:
 	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file data_20Hz/crash_001_trim.txt
+
+trim_10Hz_leftcut_01:
+	$(PYTHON) scripts/trimming.py --input data_10Hz/leftcut_01 --output data/leftcut_01 --file data_10Hz/leftcut_01_trim.txt
+
+trim_10Hz_rightcut_01:
+	$(PYTHON) scripts/trimming.py --input data_10Hz/rightcut_01 --output data/leftcut_01 --file data_10Hz/rightcut_01_trim.txt
 
 clean:
 	rm -fr models/*
