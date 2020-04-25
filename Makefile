@@ -143,13 +143,19 @@ models/laprnn_20.h5: $(DATASET_10Hz)
 	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig.py
 
 trim_crash_001:
-	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file data_20Hz/crash_001_trim.txt
+	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data_generated/crash_001 --file data_20Hz/crash_001_trim.txt
 
 trim_10Hz_leftcut_01:
-	$(PYTHON) scripts/trimming.py --input data_10Hz/leftcut_01 --output data/leftcut_01 --file data_10Hz/leftcut_01_trim.txt
+	$(PYTHON) scripts/trimming.py --input data_10Hz/leftcut_01 --output data_generated/leftcut_01 --file data_10Hz/leftcut_01_trim.txt
 
 trim_10Hz_rightcut_01:
-	$(PYTHON) scripts/trimming.py --input data_10Hz/rightcut_01 --output data/rightcut_01 --file data_10Hz/rightcut_01_trim.txt
+	$(PYTHON) scripts/trimming.py --input data_10Hz/rightcut_01 --output data_generated/rightcut_01 --file data_10Hz/rightcut_01_trim.txt
+
+trim_20Hz_car_01:
+	$(PYTHON) scripts/trimming.py --input data_20Hz/car_01 --output data_generated/car_01 --file data_20Hz/car_01_trim.txt
+	
+trim_20Hz_car_02:
+	$(PYTHON) scripts/trimming.py --input data_20Hz/car_02 --output data_generated/car_02 --file data_20Hz/car_02_trim.txt
 
 clean:
 	rm -fr models/*
