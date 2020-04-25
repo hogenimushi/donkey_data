@@ -15,13 +15,16 @@ DATASET_10Hz=data_10Hz/lap_01 data_10Hz/lap_02 data_10Hz/lap_03 data_10Hz/lap_04
 data_10Hz/lap_06 data_10Hz/lap_07 data_10Hz/lap_08 data_10Hz/lap_09 data_10Hz/lap_10 \
 data_10Hz/leftcut_01 data_10Hz/rightcut_01 data_10Hz/slow_01
 
+DATASET_05Hz = $(shell find data_05Hz -type d | tr '\n' ' ')
 
-DATASET_05Hz=data_05Hz/conservative_001 data_05Hz/conservative_002 data_05Hz/conservative_003 data_05Hz/conservative_004 \
-data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
-data_05Hz/rightcut_001 data_05Hz/leftcut_001 \
-data_05Hz/startright_01 data_05Hz/startright_02 data_05Hz/startright_03 data_05Hz/startright_04 \
-data_05Hz/startright_05 \
-data_05Hz/startright_06 data_05Hz/startright_07 data_05Hz/startright_08 data_05Hz/startright_09 data_05Hz/startright_00
+#DATASET_05Hz=data_05Hz/conservative_001 data_05Hz/conservative_002 data_05Hz/conservative_003 data_05Hz/conservative_004 \
+#data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
+#data_05Hz/rightcut_001 data_05Hz/leftcut_001 \
+#data_05Hz/startright_01 data_05Hz/startright_02 data_05Hz/startright_03 data_05Hz/startright_04 \
+#data_05Hz/startright_05 \
+#data_05Hz/startright_06 data_05Hz/startright_07 data_05Hz/startright_08 data_05Hz/startright_09 data_05Hz/startright_00 \
+#data_05Hz/startleft_01 data_05Hz/startleft_02 data_05Hz/startleft_03 data_05Hz/startleft_04 data_05Hz/startleft_05 \
+#data_05Hz/startleft_06 data_05Hz/startleft_07 data_05Hz/startleft_08 data_05Hz/startleft_09 data_05Hz/startleft_10
 
 #DATASET_05Hz=data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
 #data_05Hz/lap_006 data_05Hz/leftcut_001 data_05Hz/rightcut_001 data_20Hz/startright_01
@@ -105,7 +108,7 @@ models/default_3d.h5:
 	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=3d
 
 models/default_rnn.h5:
-	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=rnn
+	$(PYTHON) manage.py train --tub=`find data -name *| tr '\n' ','` --model=$@ --type=rnn
 
 models/lap_05.h5: $(DATASET_05Hz)
 	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear --myconfig=configs/myconfig_05Hz.py
