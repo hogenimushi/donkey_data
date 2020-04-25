@@ -117,10 +117,10 @@ models/lap3d_05.h5: $(DATASET_05Hz)
 	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=3d --myconfig=configs/myconfig_05Hz.py
 
 models/laprnn_05.h5: $(DATASET_05Hz)
-	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig_05Hz.py
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig_05Hz.py
 
 models/laprnn_10.h5: $(DATASET_10Hz)
-	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig_10Hz.py
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig_10Hz.py
 
 trimming_crash_001:
 	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data/crash_001 --file data_20Hz/crash_001_trim.txt
