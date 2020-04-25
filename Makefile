@@ -11,11 +11,13 @@ DATASET_SLOW=data_20Hz/middle_001 $(START_RIGHT)
 DATASET_FAST=data_20Hz/lap_001 data_20Hz/lap_002 data_20Hz/lap_003 data_20Hz/lap_004 data_20Hz/lap_005 \
 data_20Hz/lap_006 data_20Hz/lap_007 data_20Hz/lap_008 data_20Hz/leftcut_001 data_20Hz/rightcut_001 $(START_RIGHT) 
 
-DATASET_10Hz=data_10Hz/lap_01 data_10Hz/lap_02 data_10Hz/lap_03 data_10Hz/lap_04 data_10Hz/lap_05 \
-data_10Hz/lap_06 data_10Hz/lap_07 data_10Hz/lap_08 data_10Hz/lap_09 data_10Hz/lap_10 \
-data_10Hz/leftcut_01 data_10Hz/rightcut_01 data_10Hz/slow_01
 
-DATASET_05Hz = $(shell find data_05Hz -type d | sed -e '1d'  |tr '\n' ' ')
+DATASET_10Hz = $(shell find data_10Hz -type d | sed -e '1d' | tr '\n' ' ')
+#DATASET_10Hz=data_10Hz/lap_01 data_10Hz/lap_02 data_10Hz/lap_03 data_10Hz/lap_04 data_10Hz/lap_05 \
+#data_10Hz/lap_06 data_10Hz/lap_07 data_10Hz/lap_08 data_10Hz/lap_09 data_10Hz/lap_10 \
+#data_10Hz/leftcut_01 data_10Hz/rightcut_01 data_10Hz/slow_01
+
+DATASET_05Hz = $(shell find data_05Hz -type d | sed -e '1d' | tr '\n' ' ')
 
 #DATASET_05Hz=data_05Hz/conservative_001 data_05Hz/conservative_002 data_05Hz/conservative_003 data_05Hz/conservative_004 \
 #data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
@@ -38,6 +40,16 @@ DATASET_SLOW_ARG=$(subst $(SPACE),$(COMMA),$(DATASET_SLOW))
 
 none:
 	@echo "Argument is required."
+
+
+run: prebuilt/fastrnn10.h5
+	$(PYTHON) manage.py drive --model=models_prebuilt/fastrnn10.h5 --type=rnn --myconfig=configs/myconfig.py
+
+race: prebuilt/fastrnn10.h5
+	$(PYTHON) manage.py drive --model=models_prebuilt/fastrnn10.h5 --type=rnn --myconfig=configs/race_10Hz.py
+
+train: models/laprnn_10.h5	
+	cp models/raprnn_10.h5 models_prebuilt/fastrnn10.h5
 
 record05:
 	$(PYTHON) manage.py drive --js --myconfig=configs/myconfig_05Hz.py
@@ -69,7 +81,6 @@ race_slow20: models/slow_20.h5
 
 race05: models/lap_05.h5
 	$(PYTHON) manage.py drive --model=$< --type=linear --myconfig=configs/race_05Hz.py
-
 
 train:
 	make models/default.h5
@@ -105,16 +116,16 @@ models/default.h5:
 	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=linear
 
 models/default_3d.h5:
-	$(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=3d
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=`ls data | tr '\n' ' '` --model=$@ --type=3d
 
 models/default_rnn.h5:
-	$(PYTHON) manage.py train --tub=`find data -name *| tr '\n' ','` --model=$@ --type=rnn
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=`find data -name *| tr '\n' ','` --model=$@ --type=rnn
 
 models/lap_05.h5: $(DATASET_05Hz)
 	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=linear --myconfig=configs/myconfig_05Hz.py
 
 models/lap3d_05.h5: $(DATASET_05Hz)
-	$(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=3d --myconfig=configs/myconfig_05Hz.py
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=3d --myconfig=configs/myconfig_05Hz.py
 
 models/laprnn_05.h5: $(DATASET_05Hz)
 	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig_05Hz.py
