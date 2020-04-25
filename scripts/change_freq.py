@@ -135,7 +135,7 @@ def main():
 
 
 def test():
-    verification_data(input_path)
+    #verification_data(input_path)
     make_target_dir(output_path, current_frequency, target_frequency)
     i = ChangeFreqImg(input_path, current_frequency, target_frequency, output_path)
     i.data_num = make_data_list(i.in_img_path)
