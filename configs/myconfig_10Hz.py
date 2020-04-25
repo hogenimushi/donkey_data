@@ -139,7 +139,7 @@ JOYSTICK_STEERING_SCALE = 1.0       #some people want a steering that is less se
 # MODEL_CATEGORICAL_MAX_THROTTLE_RANGE = 0.5
 # 
 # #RNN or 3D
-SEQUENCE_LENGTH = 3             #some models use a number of images over time. This controls how many.
+#SEQUENCE_LENGTH = 3             #some models use a number of images over time. This controls how many.
 # 
 # #IMU
 # HAVE_IMU = False                #when true, this add a Mpu6050 part and records the data. Can be used with a 
@@ -229,7 +229,7 @@ WEB_INIT_MODE = "local"   # or user
 MAX_EPOCHS = 100
 EARLY_STOP_PATIENCE = 20
 CACHE_IMAGES = False
-SEQUENCE_LENGTH = 3
+SEQUENCE_LENGTH = 2
 
 CONTROLLER_TYPE='F710'
 
