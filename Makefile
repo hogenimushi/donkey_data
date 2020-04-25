@@ -5,7 +5,7 @@ PYTHON=python
 START_20HZ  = $(shell find data_20Hz -name 'start*' -type d | tr '\n' ' ')
 LAP_20HZ    = $(shell find data_20Hz -name 'lap*' -type d | tr '\n' ' ')
 OTHERS_20HZ = data_20Hz/right_001 data_20Hz/left_001 data_20Hz/middle_001
-GEN_20HZ    = $(shell find data_generated -type d | sed -e '1d' | tr '\n' ' ')
+GEN_20HZ    = $(shell find data_generated_20Hz -type d | sed -e '1d' | tr '\n' ' ')
 
 DATASET_20HZ = $(START_20HZ) $(LAP_20HZ) $(OTHERS_20HZ) $(GEN_20HZ)
 
@@ -16,6 +16,11 @@ DATASET_SLOW=data_20Hz/middle_001 $(START_RIGHT)
 DATASET_FAST=data_20Hz/lap_001 data_20Hz/lap_002 data_20Hz/lap_003 data_20Hz/lap_004 data_20Hz/lap_005 \
 data_20Hz/lap_006 data_20Hz/lap_007 data_20Hz/lap_008 data_20Hz/leftcut_001 data_20Hz/rightcut_001 $(START_RIGHT) 
 
+START_10HZ  = $(shell find data_10Hz -name 'start*' -type d | tr '\n' ' ')
+LAP_10HZ    = $(shell find data_10Hz -name 'lap*'   -type d | tr '\n' ' ')
+OTHERS_10HZ = data_10Hz/slow_01 
+GEN_10HZ    = $(shell find data_generated_10Hz      -type d | sed -e '1d' | tr '\n' ' ')
+ALL_10HZ    = $(START_10HZ) $(LAP_10HZ) $(OTHERS_10HZ) $(GEN_10HZ)
 
 DATASET_10Hz = $(shell find data_10Hz -type d | sed -e '1d' | tr '\n' ' ')
 #DATASET_10Hz=data_10Hz/lap_01 data_10Hz/lap_02 data_10Hz/lap_03 data_10Hz/lap_04 data_10Hz/lap_05 \
@@ -36,7 +41,6 @@ DATASET_05Hz = $(shell find data_05Hz -type d | sed -e '1d' | tr '\n' ' ')
 #DATASET_05Hz=data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
 #data_05Hz/lap_006 data_05Hz/leftcut_001 data_05Hz/rightcut_001 data_20Hz/startright_01
 
-YATTSUKE = DATASET_
 
 
 COMMA=,
@@ -149,6 +153,10 @@ models/laprnn_20.h5: $(DATASET_10Hz)
 
 models/lapfinal_20.h5: $(DATASET_20HZ)
 	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig.py
+
+models/lapfinal_v2_20.h5: $(ALL_10HZ)
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig.py
+
 
 trim_crash_001:
 	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data_generated_20Hz/crash_001 --file data_20Hz/crash_001_trim.txt
