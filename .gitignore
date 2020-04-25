@@ -2,3 +2,4 @@ data/*
 models/*
 !.gitkeep
 configs/__pycache__
+scripts/__pycache__

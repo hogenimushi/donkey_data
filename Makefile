@@ -146,7 +146,7 @@ trim_10Hz_leftcut_01:
 	$(PYTHON) scripts/trimming.py --input data_10Hz/leftcut_01 --output data/leftcut_01 --file data_10Hz/leftcut_01_trim.txt
 
 trim_10Hz_rightcut_01:
-	$(PYTHON) scripts/trimming.py --input data_10Hz/rightcut_01 --output data/leftcut_01 --file data_10Hz/rightcut_01_trim.txt
+	$(PYTHON) scripts/trimming.py --input data_10Hz/rightcut_01 --output data/rightcut_01 --file data_10Hz/rightcut_01_trim.txt
 
 clean:
 	rm -fr models/*
