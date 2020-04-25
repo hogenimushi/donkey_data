@@ -45,7 +45,7 @@ none:
 
 
 run: prebuilt/fastrnn10.h5
-	$(PYTHON) manage.py drive --model=models_prebuilt/fastrnn10.h5 --type=rnn --myconfig=configs/myconfig.py
+	$(PYTHON) manage.py drive --model=models_prebuilt/fastrnn10.h5 --type=rnn --myconfig=configs/myconfig_10Hz.py
 
 race: prebuilt/fastrnn10.h5
 	$(PYTHON) manage.py drive --model=models_prebuilt/fastrnn10.h5 --type=rnn --myconfig=configs/race_10Hz.py
