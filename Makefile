@@ -44,13 +44,16 @@ none:
 	@echo "Argument is required."
 
 
-run: prebuilt/fastrnn10.h5
-	$(PYTHON) manage.py drive --model=models_prebuilt/fastrnn10.h5 --type=rnn --myconfig=configs/myconfig_10Hz.py
+run: models_prebuilt/fastrnn_10.h5
+	$(PYTHON) manage.py drive --model=$< --type=rnn --myconfig=configs/myconfig_10Hz.py
 
-race: prebuilt/fastrnn10.h5
-	$(PYTHON) manage.py drive --model=models_prebuilt/fastrnn10.h5 --type=rnn --myconfig=configs/race_10Hz.py
+race: models_prebuilt/fastrnn_10.h5
+	$(PYTHON) manage.py drive --model=$< --type=rnn --myconfig=configs/race_10Hz.py
 
-train: models/laprnn_10.h5	
+train:
+	make models_prebullt/fastrnn10.h5
+
+models_prebullt/fastrnn_10.h5: models/laprnn_10.h5	
 	cp models/raprnn_10.h5 models_prebuilt/fastrnn10.h5
 
 record05:
