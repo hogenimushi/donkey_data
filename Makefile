@@ -18,7 +18,11 @@ data_10Hz/leftcut_01 data_10Hz/rightcut_01 data_10Hz/slow_01
 
 DATASET_05Hz=data_05Hz/conservative_001 data_05Hz/conservative_002 data_05Hz/conservative_003 data_05Hz/conservative_004 \
 data_05Hz/lap_001 data_05Hz/lap_002 data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
-data_05Hz/rightcut_001 data_20Hz/startright_01
+data_05Hz/rightcut_001 data_05Hz/leftcut_001 \
+data_05Hz/startright_01 data_05Hz/startright_02 data_05Hz/startright_03 data_05Hz/startright_04 \
+data_05Hz/startright_05 \
+data_05Hz/startright_06 data_05Hz/startright_07 data_05Hz/startright_08 data_05Hz/startright_09 data_05Hz/startright_00
+
 #DATASET_05Hz=data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
 #data_05Hz/lap_006 data_05Hz/leftcut_001 data_05Hz/rightcut_001 data_20Hz/startright_01
 
