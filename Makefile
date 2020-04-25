@@ -2,9 +2,12 @@
 # By Hogenimushi
 #
 PYTHON=python
-START_RIGHT= data_20Hz/startright_01 data_20Hz/startright_02 data_20Hz/startright_03  data_20Hz/startright_04 \
-data_20Hz/startright_05 data_20Hz/startright_06 data_20Hz/startright_07 data_20Hz/startright_08 \
-data_20Hz/startright_09 data_20Hz/startright_10 
+START_20HZ  = $(shell find data_20Hz -name 'start*' -type d | tr '\n' ' ')
+LAP_20HZ    = $(shell find data_20Hz -name 'lap*' -type d | tr '\n' ' ')
+OTHERS_20HZ = data_20Hz/right_001 data_20Hz/left_001 data_20Hz/middle_001
+GEN_20HZ    = $(shell find data_generated -type d | sed -e '1d' | tr '\n' ' ')
+
+DATASET_20HZ = $(START_20HZ) $(LAP_20HZ) $(OTHERS_20HZ) $(GEN_20HZ)
 
 START_RIGHT= data_20Hz/startright_01 data_20Hz/startright_02 data_20Hz/startright_03 data_20Hz/startright_04 data_20Hz/startright_05 \
 data_20Hz/startright_06 data_20Hz/startright_07 data_20Hz/startright_08 data_20Hz/startright_09 data_20Hz/startright_10 
@@ -32,6 +35,8 @@ DATASET_05Hz = $(shell find data_05Hz -type d | sed -e '1d' | tr '\n' ' ')
 
 #DATASET_05Hz=data_05Hz/lap_003 data_05Hz/lap_004 data_05Hz/lap_005 \
 #data_05Hz/lap_006 data_05Hz/leftcut_001 data_05Hz/rightcut_001 data_20Hz/startright_01
+
+YATTSUKE = DATASET_
 
 
 COMMA=,
@@ -142,6 +147,9 @@ models/laprnn_10.h5: $(DATASET_10Hz)
 models/laprnn_20.h5: $(DATASET_10Hz)
 	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig.py
 
+models/lapfinal_20.h5: $(DATASET_20HZ)
+	TF_FORCE_GPU_ALLOW_GROWTH=true $(PYTHON) manage.py train --tub=$(subst $(SPACE),$(COMMA),$^) --model=$@ --type=rnn --myconfig=configs/myconfig.py
+
 trim_crash_001:
 	$(PYTHON) scripts/trimming.py --input data_20Hz/crash_001 --output data_generated/crash_001 --file data_20Hz/crash_001_trim.txt
 
@@ -153,7 +161,7 @@ trim_10Hz_rightcut_01:
 
 trim_20Hz_car_01:
 	$(PYTHON) scripts/trimming.py --input data_20Hz/car_01 --output data_generated/car_01 --file data_20Hz/car_01_trim.txt
-	
+
 trim_20Hz_car_02:
 	$(PYTHON) scripts/trimming.py --input data_20Hz/car_02 --output data_generated/car_02 --file data_20Hz/car_02_trim.txt
 
